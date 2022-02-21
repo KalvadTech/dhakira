@@ -1,6 +1,6 @@
 # dhakira
 
-TODO: Write a description here
+Dhakira is an opiniated web server in Crystal, with a special emphasis towards SPA hosting!
 
 ## Installation
 

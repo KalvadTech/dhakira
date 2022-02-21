@@ -1,8 +1,82 @@
 # TODO: Write documentation for `Dhakira`
 module Dhakira
   VERSION = "0.1.0"
-  require "totem"
-  # Load yaml file from file with path
-  totem = Totem.from_file "./dhakira.yaml"
   # TODO: Put your code here
 end
+
+require "kemal"
+require "log"
+require "./globr"
+require "./loadr"
+
+if Dir.exists?("dist") == false
+  Log.error { "No ./dist folder" }
+  exit(status=1)
+end
+
+if Dir.exists?("dist/websites") == false && Dir.exists?("dist/spas") == false
+  Log.error { "No websites or SPAs to load" }
+  exit(status=1)
+end
+
+websites = [] of String
+spas = [] of String
+
+if Dir.exists?("dist/websites") == true
+  to_load = Dir.glob("dist/websites/**", match_hidden: false)
+  i = 0
+  while i < to_load.size
+    websites << to_load[i].split("/")[2]
+    i += 1
+  end
+end
+
+if Dir.exists?("dist/spas") == true
+  to_load = Dir.glob("dist/spas/**", match_hidden: false)
+  i = 0
+  while i < to_load.size
+    spas << to_load[i].split("/")[2]
+    i += 1
+  end
+end
+
+# Load files in memory
+globr = Globr.new
+globr.ls("dist")
+loadr = Loadr.new
+i = 0
+while i < globr.file_list.size
+  loadr.load_file(globr.file_list[i])
+  i += 1
+end
+
+get "/*path" do |env|
+  host = env.request.headers["Host"]
+  path = env.params.url["path"]
+  if path == ""
+    path = "index.html"
+  end
+  if websites.index(host) != nil
+    short_path = "#{host}/#{path}"
+    begin
+      env.response.headers["Content-Type"] = loadr.mem[short_path]["mime_type"]
+      loadr.mem[short_path]["content"]
+    rescue
+      halt env, status_code: 404, response: "Not Found"
+    end
+  elsif spas.index(host) != nil
+    short_path = "#{host}/#{path}"
+    begin
+      env.response.headers["Content-Type"] = loadr.mem[short_path]["mime_type"]
+      loadr.mem[short_path]["content"]
+    rescue
+      short_path = "#{host}/index.html"
+      env.response.headers["Content-Type"] = loadr.mem[short_path]["mime_type"]
+      loadr.mem[short_path]["content"]
+    end
+  else
+    halt env, status_code: 404, response: "Not Found"
+  end
+end
+
+Kemal.run
