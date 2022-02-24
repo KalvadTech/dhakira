@@ -10,7 +10,7 @@ require "./globr"
 require "./loadr"
 require "./logger"
 
-Kemal.config.logger = MyCustomLogger.new
+Kemal.config.logger = DhakiraLogger.new
 
 if Dir.exists?("dhakira_html") == false
   Log.error { "No ./dhakira_html folder" }
