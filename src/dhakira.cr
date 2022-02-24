@@ -8,6 +8,9 @@ require "kemal"
 require "log"
 require "./globr"
 require "./loadr"
+require "./logger"
+
+Kemal.config.logger = MyCustomLogger.new
 
 if Dir.exists?("dhakira_html") == false
   Log.error { "No ./dhakira_html folder" }
@@ -51,7 +54,7 @@ while i < globr.file_list.size
 end
 
 get "/*path" do |env|
-  host = env.request.headers["Host"]
+  host = env.request.hostname
   path = env.params.url["path"]
   if path == ""
     path = "index.html"
