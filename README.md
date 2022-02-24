@@ -20,7 +20,7 @@ Crystal is like a compiled Ruby, backed by LLVM.
 
 ## How does it work?
 
-``` mermaidjs
+``` mermaid
 graph TD
     A[Launch Dhakira] --> B(Check if ./dhakira_html folder exists)
     B -->|No| Z[Error]
