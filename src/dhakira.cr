@@ -1,16 +1,11 @@
-# TODO: Write documentation for `Dhakira`
-module Dhakira
-  VERSION = "0.2.0"
-  # TODO: Put your code here
-end
-
 require "kemal"
 require "log"
 require "./globr"
 require "./loadr"
 require "./logger"
 
-Kemal.config.logger = MyCustomLogger.new
+Kemal.config.logger = DhakiraLogger.new
+Kemal.config.env = "production"
 
 if Dir.exists?("dhakira_html") == false
   Log.error { "No ./dhakira_html folder" }

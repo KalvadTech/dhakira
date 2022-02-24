@@ -1,5 +1,4 @@
-class MyCustomLogger < Kemal::BaseLogHandler
-  # This is run for each request. You can access the request/response context with `context`.
+class DhakiraLogger < Kemal::BaseLogHandler
   def initialize(@io : IO = STDOUT)
   end
 
