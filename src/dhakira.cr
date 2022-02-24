@@ -1,9 +1,3 @@
-# TODO: Write documentation for `Dhakira`
-module Dhakira
-  VERSION = "0.2.0"
-  # TODO: Put your code here
-end
-
 require "kemal"
 require "log"
 require "./globr"
