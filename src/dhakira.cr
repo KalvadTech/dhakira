@@ -11,6 +11,7 @@ require "./loadr"
 require "./logger"
 
 Kemal.config.logger = DhakiraLogger.new
+Kemal.config.env = "production"
 
 if Dir.exists?("dhakira_html") == false
   Log.error { "No ./dhakira_html folder" }
