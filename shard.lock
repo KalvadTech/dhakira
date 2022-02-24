@@ -10,21 +10,9 @@ shards:
 
   kemal:
     git: https://github.com/kemalcr/kemal.git
-    version: 1.1.0
-
-  kilt:
-    git: https://github.com/jeromegn/kilt.git
-    version: 0.6.1
-
-  popcorn:
-    git: https://github.com/icyleaf/popcorn.git
-    version: 0.3.0
+    version: 1.1.1
 
   radix:
     git: https://github.com/luislavena/radix.git
     version: 0.4.1
-
-  totem:
-    git: https://github.com/icyleaf/totem.git
-    version: 0.7.0
 

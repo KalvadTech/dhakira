@@ -9,21 +9,21 @@ require "log"
 require "./globr"
 require "./loadr"
 
-if Dir.exists?("dist") == false
-  Log.error { "No ./dist folder" }
-  exit(status=1)
+if Dir.exists?("dhakira_html") == false
+  Log.error { "No ./dhakira_html folder" }
+  exit(status = 1)
 end
 
-if Dir.exists?("dist/websites") == false && Dir.exists?("dist/spas") == false
+if Dir.exists?("dhakira_html/websites") == false && Dir.exists?("dhakira_html/spas") == false
   Log.error { "No websites or SPAs to load" }
-  exit(status=1)
+  exit(status = 1)
 end
 
 websites = [] of String
 spas = [] of String
 
-if Dir.exists?("dist/websites") == true
-  to_load = Dir.glob("dist/websites/**", match_hidden: false)
+if Dir.exists?("dhakira_html/websites") == true
+  to_load = Dir.glob("dhakira_html/websites/**", match_hidden: false)
   i = 0
   while i < to_load.size
     websites << to_load[i].split("/")[2]
@@ -31,8 +31,8 @@ if Dir.exists?("dist/websites") == true
   end
 end
 
-if Dir.exists?("dist/spas") == true
-  to_load = Dir.glob("dist/spas/**", match_hidden: false)
+if Dir.exists?("dhakira_html/spas") == true
+  to_load = Dir.glob("dhakira_html/spas/**", match_hidden: false)
   i = 0
   while i < to_load.size
     spas << to_load[i].split("/")[2]
@@ -42,7 +42,7 @@ end
 
 # Load files in memory
 globr = Globr.new
-globr.ls("dist")
+globr.ls("dhakira_html")
 loadr = Loadr.new
 i = 0
 while i < globr.file_list.size
