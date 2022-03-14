@@ -50,6 +50,12 @@ end
 
 get "/*path" do |env|
   host = env.request.hostname
+  request_headers = env.request.headers
+  gzip = false
+  if env.request.headers.includes_word?("Accept-Encoding", "gzip")
+    gzip = true
+    env.response.headers["Content-Encoding"] = "gzip"
+  end
   path = env.params.url["path"]
   if path == ""
     path = "index.html"
@@ -58,7 +64,11 @@ get "/*path" do |env|
     short_path = "#{host}/#{path}"
     begin
       env.response.headers["Content-Type"] = loadr.mem[short_path]["mime_type"]
-      loadr.mem[short_path]["content"]
+      if gzip == true
+        loadr.mem[short_path]["gzip_content"]
+      else
+        loadr.mem[short_path]["content"]
+      end
     rescue
       halt env, status_code: 404, response: "Not Found"
     end
@@ -66,11 +76,19 @@ get "/*path" do |env|
     short_path = "#{host}/#{path}"
     begin
       env.response.headers["Content-Type"] = loadr.mem[short_path]["mime_type"]
-      loadr.mem[short_path]["content"]
+      if gzip == true
+        loadr.mem[short_path]["gzip_content"]
+      else
+        loadr.mem[short_path]["content"]
+      end
     rescue
       short_path = "#{host}/index.html"
       env.response.headers["Content-Type"] = loadr.mem[short_path]["mime_type"]
-      loadr.mem[short_path]["content"]
+      if gzip == true
+        loadr.mem[short_path]["gzip_content"]
+      else
+        loadr.mem[short_path]["content"]
+      end
     end
   else
     halt env, status_code: 404, response: "Not Found"
