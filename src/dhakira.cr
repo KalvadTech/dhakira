@@ -56,7 +56,6 @@ get "/*path" do |env|
   gzip = false
   if env.request.headers.includes_word?("Accept-Encoding", "gzip")
     gzip = true
-    env.response.headers["Content-Encoding"] = "gzip"
   end
   path = env.params.url["path"]
   if path == ""
@@ -67,6 +66,7 @@ get "/*path" do |env|
     begin
       env.response.headers["Content-Type"] = loadr.mem[short_path]["mime_type"]
       if gzip == true
+        env.response.headers["Content-Encoding"] = "gzip"
         loadr.mem[short_path]["gzip_content"]
       else
         loadr.mem[short_path]["content"]
@@ -79,6 +79,7 @@ get "/*path" do |env|
     begin
       env.response.headers["Content-Type"] = loadr.mem[short_path]["mime_type"]
       if gzip == true
+        env.response.headers["Content-Encoding"] = "gzip"
         loadr.mem[short_path]["gzip_content"]
       else
         loadr.mem[short_path]["content"]
@@ -87,6 +88,7 @@ get "/*path" do |env|
       short_path = "#{host}/index.html"
       env.response.headers["Content-Type"] = loadr.mem[short_path]["mime_type"]
       if gzip == true
+        env.response.headers["Content-Encoding"] = "gzip"
         loadr.mem[short_path]["gzip_content"]
       else
         loadr.mem[short_path]["content"]
