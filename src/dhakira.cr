@@ -49,6 +49,8 @@ while i < globr.file_list.size
 end
 
 get "/*path" do |env|
+  env.response.headers.delete("x-powered-by")
+  env.response.headers.add("x-powered-by", "Dhakira")
   host = env.request.hostname
   request_headers = env.request.headers
   gzip = false
