@@ -4,6 +4,7 @@ require "compress/gzip"
 class Loadr
   def initialize
     @mem = Hash(String, Hash(String, String)).new
+    MIME.register(".webmanifest", "application/json")
   end
 
   def load_file(path)
