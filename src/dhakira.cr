@@ -60,6 +60,9 @@ get "/*path" do |env|
   if path == ""
     path = "index.html"
   end
+  if path.ends_with?('/') == true
+    path = "#{path}index.html"
+  end
   if websites.index(host) != nil
     short_path = "#{host}/#{path}"
     begin
