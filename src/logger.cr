@@ -13,7 +13,7 @@ class DhakiraLogger < Kemal::BaseLogHandler
     @io << "[" << Time.utc << "] "
     @io << " \"" << context.request.method << ' ' << context.request.hostname << context.request.resource << "\" "
     @io << context.response.status_code << ' ' << context.request.content_length
-    @io << ' ' << "#{elapsed_time.total_milliseconds}ms" << '\n'
+    @io << ' ' << "#{elapsed_time.total_milliseconds.round(3)}ms" << '\n'
     @io.flush
     context
   end

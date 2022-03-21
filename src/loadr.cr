@@ -23,7 +23,7 @@ class Loadr
 
     gzip_content = File.read("/tmp/dhakira.gzip")
 
-    Log.info { "Loading: #{short_cleaned_path}" }
+    Log.info { "Loading: #{short_cleaned_path}, with mime_type #{mime_type}" }
     @mem[short_cleaned_path] = {"mime_type" => mime_type, "content" => content, "gzip_content" => gzip_content}
   end
 
