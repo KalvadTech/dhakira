@@ -9,12 +9,12 @@ Kemal.config.env = "production"
 
 if Dir.exists?("dhakira_html") == false
   Log.error { "No ./dhakira_html folder" }
-  exit(status = 1)
+  exit(1)
 end
 
 if Dir.exists?("dhakira_html/websites") == false && Dir.exists?("dhakira_html/spas") == false
   Log.error { "No websites or SPAs to load" }
-  exit(status = 1)
+  exit(1)
 end
 
 websites = [] of String
@@ -52,7 +52,6 @@ get "/*path" do |env|
   env.response.headers.delete("x-powered-by")
   env.response.headers.add("x-powered-by", "Dhakira")
   host = env.request.hostname
-  request_headers = env.request.headers
   gzip = false
   if env.request.headers.includes_word?("Accept-Encoding", "gzip")
     gzip = true
