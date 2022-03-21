@@ -1,5 +1,5 @@
 name: dhakira
-version: 0.3.1
+version: 0.3.5
 
 authors:
   - Loïc Tosser <loic@kalvad.com>
@@ -14,3 +14,7 @@ license: MIT
 dependencies:
   kemal:
     github: kemalcr/kemal
+development_dependencies:
+  ameba:
+    github: crystal-ameba/ameba
+    version: ~> 0.13.0

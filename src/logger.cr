@@ -4,16 +4,16 @@ class DhakiraLogger < Kemal::BaseLogHandler
 
   def call(context)
     elapsed_time = Time.measure { call_next(context) }
-    elapsed_text = elapsed_text(elapsed_time)
-    ip = context.request.remote_address
     if context.request.headers.has_key?("X-Forwarded-For")
-      ip = context.request.headers["X-Forwarded-For"]
+      @io << context.request.headers["X-Forwarded-For"] << " "
+    else
+      @io << context.request.remote_address << " "
     end
-    @io << ip << " "
+
     @io << "[" << Time.utc << "] "
     @io << " \"" << context.request.method << ' ' << context.request.hostname << context.request.resource << "\" "
     @io << context.response.status_code << ' ' << context.request.content_length
-    @io << ' ' << elapsed_text << '\n'
+    @io << ' ' << "#{elapsed_time.total_milliseconds.round(3)}ms" << '\n'
     @io.flush
     context
   end
@@ -22,12 +22,5 @@ class DhakiraLogger < Kemal::BaseLogHandler
     @io << message
     @io.flush
     @io
-  end
-
-  private def elapsed_text(elapsed)
-    millis = elapsed.total_milliseconds
-    return "#{millis.round(2)}ms" if millis >= 1
-
-    "#{(millis * 1000).round(2)}µs"
   end
 end
