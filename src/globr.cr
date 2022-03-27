@@ -4,7 +4,7 @@ class Globr
   end
 
   def ls(path)
-    files_to_load = Dir.glob("#{path}/**", match_hidden: false)
+    files_to_load = Dir.glob("#{path}/**", match_hidden: true)
     i = 0
     while i < files_to_load.size
       if File.file?(files_to_load[i]) == true
