@@ -8,7 +8,11 @@ class Loadr
   end
 
   def load_file(path)
-    mime_type = MIME.from_filename(path)
+    begin
+      mime_type = MIME.from_filename(path)
+    rescue
+      mime_type = "application/octet-stream"
+    end
     content = File.read(path)
     cleaned_path = path.split("/")
     short_cleaned_path = cleaned_path.skip(2).join("/")
