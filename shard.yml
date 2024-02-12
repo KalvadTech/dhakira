@@ -1,5 +1,5 @@
 name: dhakira
-version: 0.4.0
+version: 0.5.0
 
 authors:
   - Loïc Tosser <loic@kalvad.com>
@@ -8,7 +8,7 @@ targets:
   dhakira:
     main: src/dhakira.cr
 
-crystal: 1.7.3
+crystal: 1.11.2
 
 license: MIT
 dependencies:

@@ -1,0 +1,22 @@
+# This file is copied from: https://github.com/k4yt3x/simple-http-server/blob/master/Dockerfile
+# LICENS: BSD 2-Clause "Simplified" License
+#    please see https://github.com/k4yt3x/simple-http-server/blob/master/LICENSE for more details
+
+FROM crystallang/crystal:1-alpine as builder
+WORKDIR /app
+ARG BRANCH
+RUN git clone https://github.com/KalvadTech/dhakira.git
+WORKDIR /app/dhakira
+RUN shards install --production -v
+RUN shards build --static --no-debug --release --production -v
+
+FROM gcr.io/distroless/static:nonroot
+LABEL maintainer="wowi42 <loic@kalvad.com>" \
+    org.opencontainers.image.source="https://github.com/KalvadTech/dhakira" \
+    org.opencontainers.image.description="Dhakira is an opiniated in-memory web server in Crystal, with a special emphasis towards SPA hosting!"
+COPY --from=builder \
+    /app/dhakira/dhakira \
+    /usr/local/bin/dhakira
+USER nonroot:nonroot
+WORKDIR /var/www/html
+ENTRYPOINT ["/usr/local/bin/dhakira"]

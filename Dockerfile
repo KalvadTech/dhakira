@@ -1,5 +1,5 @@
 # Build image
-FROM crystallang/crystal:1.7.3-alpine as builder
+FROM crystallang/crystal:1-alpine as builder
 WORKDIR /app
 
 # Cache dependencies
